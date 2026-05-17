@@ -179,14 +179,14 @@ dependent_install(){
 online_install(){
     dependent_install
     latest_version=$(curl -H 'Cache-Control: no-cache' -s "$latest_version_check" | grep 'tag_name' | cut -d\" -f4 | sed 's/v//g')
-    wget $download_url/docker-$latest_version.tgz
+    wget $download_url/$latest_version.tgz
     if [[ $? != 0 ]];then
         color_echo ${red} "Fail download docker-$latest_version.tgz!"
         exit 1
     fi
-    tar xzvf docker-$latest_version.tgz
+    tar xzvf $latest_version.tgz
     cp -rf docker/* /usr/bin/
-    rm -rf docker docker-$latest_version.tgz
+    rm -rf docker $latest_version.tgz
     curl -L $completion_file -o /usr/share/bash-completion/completions/docker
     chmod +x /usr/share/bash-completion/completions/docker
     source /usr/share/bash-completion/completions/docker
